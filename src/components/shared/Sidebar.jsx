@@ -10,7 +10,7 @@ const Sidebar = () => {
   const isModerator = false;
   return (
     <>
-      <div className="w-64 min-h-screen bg-yellow-500 p-7 space-y-4 hidden md:block">
+      <div className="w-64 h-full bg-yellow-500 p-7 space-y-4 hidden md:block">
         <NavLink
           to="/"
           className={({ isActive }) =>
