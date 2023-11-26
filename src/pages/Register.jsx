@@ -1,8 +1,15 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import SocialLogin from "../components/shared/SocialLogin";
+import useAuth from "../hooks/useAuth";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 const Register = () => {
+  const { createUser, updateUserProfile, logoutUser } = useAuth();
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -12,7 +19,31 @@ const Register = () => {
 
   const onSubmit = (data) => {
     reset();
-    console.log(data);
+    createUser(data?.email, data?.password)
+      .then(() => {
+        updateUserProfile(data?.name, data?.photo);
+        const userInfo = {
+          name: data?.name,
+          email: data?.email,
+        };
+        axiosPublic.post("/users", userInfo).then((res) => {
+          if (res?.data?.insertedId) {
+            reset();
+            logoutUser();
+            navigate("/login");
+            toast?.success("You are Registered Now!", {
+              position: "top-right",
+              theme: "colored",
+            });
+          }
+        });
+      })
+      .catch((error) => {
+        toast?.error(error?.code, {
+          position: "top-right",
+          theme: "colored",
+        });
+      });
   };
 
   return (
@@ -75,7 +106,7 @@ const Register = () => {
             <label>Profile Picture</label>
             <input
               type="url"
-              {...register("image", { required: true })}
+              {...register("photo", { required: true })}
               placeholder="Picture URL"
               className="outline-0 border p-2 rounded text-sm"
             />

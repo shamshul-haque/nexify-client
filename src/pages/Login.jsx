@@ -1,9 +1,15 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import Container from "../components/shared/Container";
 import SocialLogin from "../components/shared/SocialLogin";
+import useAuth from "../hooks/useAuth";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const Login = () => {
+  const { loginUser, logoutUser } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
+
   const {
     register,
     handleSubmit,
@@ -13,7 +19,25 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     reset();
-    console.log(data);
+    try {
+      const user = await loginUser(data?.email, data?.password);
+      const res = await axiosPrivate.post("/users/access-token", {
+        email: user?.user?.email,
+      });
+      if (res?.data?.success) {
+        toast?.success("Login successful!", {
+          position: "top-right",
+          theme: "colored",
+        });
+      } else {
+        logoutUser();
+      }
+    } catch (err) {
+      toast?.error(err?.code, {
+        position: "top-right",
+        theme: "colored",
+      });
+    }
   };
 
   return (
