@@ -9,7 +9,7 @@ const DropdownMenus = () => {
       </label>
       <div
         tabIndex={0}
-        className="dropdown-content p-5 shadow bg-black rounded-box w-52"
+        className="dropdown-content p-5 shadow bg-black bg-opacity-20 rounded-box w-52"
       >
         <div className="flex flex-col">
           {/* <div className="text-center">
@@ -24,9 +24,7 @@ const DropdownMenus = () => {
           <NavLink
             to="/"
             className={({ isActive }) =>
-              isActive
-                ? "text-yellow-600 border-yellow-600 border-b py-1 "
-                : "py-1"
+              isActive ? "text-yellow-600 border-yellow-600 py-1 " : "py-1"
             }
           >
             Home
@@ -34,16 +32,14 @@ const DropdownMenus = () => {
           <NavLink
             to="/products"
             className={({ isActive }) =>
-              isActive
-                ? "text-yellow-600 border-yellow-600 border-b py-1 "
-                : "py-1"
+              isActive ? "text-yellow-600 border-yellow-600 py-1 " : "py-1"
             }
           >
             Products
           </NavLink>
           <Link
             to="/login"
-            className="bg-yellow-600 hover:bg-transparent hover:border hover:border-yellow-600 transition-all duration-500 p-2 rounded uppercase text-white"
+            className="bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 p-2 rounded uppercase cursor-pointer text-center mt-3"
           >
             Login
           </Link>
