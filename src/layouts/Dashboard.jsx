@@ -1,13 +1,13 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from "../components/shared/sidebar/Sidebar";
+import Sidebar from "../components/shared/Sidebar";
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className="flex flex-col md:flex-row">
       <div>
         <Sidebar />
       </div>
-      <div>
+      <div className="flex-1">
         <Outlet />
       </div>
     </div>

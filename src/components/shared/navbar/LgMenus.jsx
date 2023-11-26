@@ -44,10 +44,10 @@ const LgMenus = () => {
           </label>
           <div
             tabIndex={0}
-            className="w-52 mr-10 -mt-2 p-5 shadow menu-sm dropdown-content bg-black bg-opacity-20 rounded-md flex flex-col uppercase"
+            className="w-52 mr-10 -mt-2 p-5 shadow menu-sm dropdown-content bg-white rounded-md flex flex-col uppercase"
           >
             <h1 className="font-bold text-center mb-2">{user?.displayName}</h1>
-            <Link to="/">
+            <Link to="/dashboard/user-profile">
               <button className="bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 p-2 rounded uppercase cursor-pointer w-full text-center mt-3">
                 Dashboard
               </button>

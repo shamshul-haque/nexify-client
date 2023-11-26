@@ -26,7 +26,7 @@ const DropdownMenus = () => {
       </label>
       <div
         tabIndex={0}
-        className="dropdown-content p-5 shadow bg-black text-white rounded-md w-52"
+        className="dropdown-content p-5 shadow bg-white rounded-md w-52"
       >
         <div className="flex flex-col">
           {user && (
@@ -39,7 +39,7 @@ const DropdownMenus = () => {
               <h1 className="font-bold text-center my-2">
                 {user?.displayName}
               </h1>
-              <Link to="/">
+              <Link to="/dashboard/user-profile">
                 <button className="bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 p-2 rounded uppercase cursor-pointer w-full text-center">
                   Dashboard
                 </button>

@@ -1,6 +1,6 @@
 const Products = () => {
   return (
-    <div>
+    <div className="pt-[75px]">
       <p>Products</p>
     </div>
   );
