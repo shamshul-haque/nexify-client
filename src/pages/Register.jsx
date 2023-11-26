@@ -111,7 +111,7 @@ const Register = () => {
               className="outline-0 border p-2 rounded text-sm"
             />
             {errors?.image?.type === "required" && (
-              <span className="text-red-500">Product image is required</span>
+              <span className="text-red-500">Profile picture is required</span>
             )}
           </div>
           <div className="form-control">

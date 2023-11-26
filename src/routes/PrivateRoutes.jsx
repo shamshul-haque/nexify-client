@@ -9,7 +9,7 @@ const PrivateRoutes = ({ children }) => {
   if (loader) {
     return (
       <div className="w-full flex justify-center items-center">
-        <span className="loading loading-bars w-40 py-40"></span>
+        <span className="loading loading-spinner w-40 py-52 bg-yellow-500"></span>
       </div>
     );
   }

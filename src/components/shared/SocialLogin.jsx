@@ -1,4 +1,5 @@
 import { FcGoogle } from "react-icons/fc";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -8,6 +9,9 @@ const SocialLogin = () => {
   const { googleLogin, logoutUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from || "/";
 
   const handleGoogleLogin = async () => {
     try {
@@ -25,6 +29,11 @@ const SocialLogin = () => {
           position: "top-right",
           theme: "colored",
         });
+        if (user) {
+          navigate(from, {
+            replace: true,
+          });
+        }
       } else {
         logoutUser();
       }

@@ -1,7 +1,24 @@
 import { RiMenu3Fill } from "react-icons/ri";
 import { Link, NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
+import useAuth from "../../../hooks/useAuth";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 const DropdownMenus = () => {
+  const { user, logoutUser } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
+
+  const handleLogout = async () => {
+    logoutUser();
+    const res = await axiosPrivate.post("/users/logout");
+    if (res?.data?.success) {
+      toast?.success("Logout successful!", {
+        position: "top-right",
+        theme: "colored",
+      });
+    }
+  };
+
   return (
     <div className="dropdown dropdown-end z-50">
       <label tabIndex={0} className="btn m-1">
@@ -9,18 +26,26 @@ const DropdownMenus = () => {
       </label>
       <div
         tabIndex={0}
-        className="dropdown-content p-5 shadow bg-black bg-opacity-20 rounded-box w-52"
+        className="dropdown-content p-5 shadow bg-black text-white rounded-md w-52"
       >
         <div className="flex flex-col">
-          {/* <div className="text-center">
-            <img
-              alt="profile picture"
-              src=""
-              className="w-10 rounded-full mx-auto"
-            />
-            <h1 className="font-bold">check</h1>
-            <Link to="/">Dashboard</Link>
-          </div> */}
+          {user && (
+            <div className="text-center mb-2 uppercase">
+              <img
+                alt="profile picture"
+                src={user?.photoURL}
+                className="w-10 rounded-full mx-auto"
+              />
+              <h1 className="font-bold text-center my-2">
+                {user?.displayName}
+              </h1>
+              <Link to="/">
+                <button className="bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 p-2 rounded uppercase cursor-pointer w-full text-center">
+                  Dashboard
+                </button>
+              </Link>
+            </div>
+          )}
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -37,12 +62,22 @@ const DropdownMenus = () => {
           >
             Products
           </NavLink>
-          <Link
-            to="/login"
-            className="bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 p-2 rounded uppercase cursor-pointer text-center mt-3"
-          >
-            Login
-          </Link>
+          {user ? (
+            <Link to="/" onClick={handleLogout}>
+              Logout
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-yellow-600 active border-yellow-600 py-1 "
+                  : "py-1"
+              }
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Container from "../components/shared/Container";
 import SocialLogin from "../components/shared/SocialLogin";
@@ -9,6 +9,9 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 const Login = () => {
   const { loginUser, logoutUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from || "/";
 
   const {
     register,
@@ -29,6 +32,11 @@ const Login = () => {
           position: "top-right",
           theme: "colored",
         });
+        if (user) {
+          navigate(from, {
+            replace: true,
+          });
+        }
       } else {
         logoutUser();
       }
