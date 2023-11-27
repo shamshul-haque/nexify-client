@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -26,6 +27,9 @@ const MyProfile = () => {
 
   return (
     <div className="bg-emerald-500 shadow-xl min-h-screen p-5 md:p-10 m-5 md:m-10 text-white text-center">
+      <Helmet>
+        <title>My Profile | Nexify</title>
+      </Helmet>
       <img
         src={user?.photoURL}
         alt="profile pic"

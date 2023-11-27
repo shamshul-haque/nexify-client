@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -53,6 +54,9 @@ const MyProducts = () => {
 
   return (
     <div className="bg-emerald-500 shadow-xl min-h-screen p-5 md:p-10 m-5 md:m-10">
+      <Helmet>
+        <title>My Product | Nexify</title>
+      </Helmet>
       <div className="uppercase">
         <h2 className="font-bold text-center text-3xl">
           Total Products: {products?.length}
@@ -73,7 +77,7 @@ const MyProducts = () => {
             {products?.map((product, index) => (
               <tr key={product._id}>
                 <th>{index + 1}</th>
-                <td>{product?.name}</td>
+                <td>{product?.product_name}</td>
                 <td>{product?.vote_count}</td>
                 <td>{product?.status}</td>
                 <td className="text-center flex flex-col gap-2">

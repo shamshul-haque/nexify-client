@@ -1,7 +1,170 @@
+import axios from "axios";
+import { useState } from "react";
+import { Helmet } from "react-helmet";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { TagsInput } from "react-tag-input-component";
+import { toast } from "react-toastify";
+import useAuth from "../../hooks/useAuth";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+const imageHostingKey = import.meta.env.VITE_imageHostingKey;
+const imageHostingAPI = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
+
 const AddProduct = () => {
+  const [selected, setSelected] = useState([]);
+  const axiosPrivate = useAxiosPrivate();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    const imageFile = { image: data?.image[0] };
+    const imgRes = await axios.post(imageHostingAPI, imageFile, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+    if (imgRes?.data?.success) {
+      const productInfo = {
+        owner_name: data?.owner_name,
+        owner: data?.owner,
+        owner_image: data?.owner_image,
+        product_name: data?.product_name,
+        details: data?.details,
+        image: imgRes?.data?.data?.display_url,
+        tags: selected,
+        vote_count: 0,
+        timestamp: new Date(),
+        status: "pending",
+      };
+      const res = await axiosPrivate.post("/menus", productInfo);
+      if (res?.data?.insertedId) {
+        reset();
+        toast?.success(`${data?.product_name} is added!`, {
+          position: "top-right",
+          theme: "colored",
+        });
+      }
+    }
+    navigate("/dashboard/my-products");
+  };
+
   return (
-    <div>
-      <p>AddProduct</p>
+    <div className="bg-emerald-500 shadow-xl min-h-screen p-5 md:p-10 m-5 md:m-10">
+      <Helmet>
+        <title>Add Product | Nexify</title>
+      </Helmet>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 mt-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-5">
+          <div className="form-control w-full md:flex-1">
+            <label>Owner Name</label>
+            <input
+              type="text"
+              {...register("owner_name", {
+                required: true,
+              })}
+              defaultValue={user?.displayName}
+              readOnly
+              className="outline-0 border p-2 rounded text-sm"
+            />
+            {errors?.owner_name?.type === "required" && (
+              <span className="text-red-500">Owner Name is required</span>
+            )}
+          </div>
+          <div className="form-control w-full flex-1">
+            <label>Owner Email</label>
+            <input
+              type="email"
+              {...register("owner", {
+                required: true,
+              })}
+              defaultValue={user?.email}
+              readOnly
+              className="outline-0 border p-2 rounded text-sm"
+            />
+            {errors?.email?.type === "required" && (
+              <span className="text-red-500">Email is required</span>
+            )}
+          </div>
+        </div>
+        <div className="flex flex-col md:flex-row items-center justify-between gap-5">
+          <div className="form-control w-full flex-1">
+            <label>Owner Image</label>
+            <input
+              type="text"
+              {...register("owner_image", {
+                required: true,
+              })}
+              defaultValue={user?.photoURL}
+              readOnly
+              className="outline-0 border p-2 rounded text-sm"
+            />
+            {errors?.owner_image?.type === "required" && (
+              <span className="text-red-500">photoUrl is required</span>
+            )}
+          </div>
+          <div className="form-control w-full flex-1">
+            <label>Product Name</label>
+            <input
+              type="text"
+              {...register("product_name", {
+                required: true,
+              })}
+              placeholder="Enter Product Name"
+              className="outline-0 border p-2 rounded text-sm"
+            />
+            {errors?.product_name?.type === "required" && (
+              <span className="text-red-500">Product name is required</span>
+            )}
+          </div>
+        </div>
+        <div className="form-control flex-1">
+          <label>Description</label>
+          <textarea
+            type="text"
+            {...register("details", { required: true })}
+            className="outline-0 border p-2 rounded text-sm"
+            placeholder="Enter Description"
+            cols="30"
+            rows="10"
+          />
+          {errors?.details?.type === "required" && (
+            <span className="text-red-500">Description is required</span>
+          )}
+        </div>
+        <div className="form-control w-full md:flex-1">
+          <label>Add Tags</label>
+          <TagsInput
+            value={selected}
+            onChange={setSelected}
+            placeHolder="Enter Tag"
+          />
+        </div>
+        <div className="form-control space-y-1">
+          <label>Product Image</label>
+          <input
+            type="file"
+            {...register("image", { required: true })}
+            className="file-input w-full max-w-xs"
+          />
+          {errors?.image?.type === "required" && (
+            <span className="text-red-500">Product image is required</span>
+          )}
+        </div>
+        <div className="form-control flex items-center">
+          <input
+            type="submit"
+            value="Submit"
+            className="bg-yellow-500 hover:bg-transparent hover:border hover:border-yellow-500 text-white transition-all duration-1000 p-2 md:px-4 md:py-3 rounded uppercase cursor-pointer text-center"
+          />
+        </div>
+      </form>
     </div>
   );
 };
