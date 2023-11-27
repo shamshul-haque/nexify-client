@@ -6,7 +6,7 @@ import LgMenus from "./LgMenus";
 const Navbar = () => {
   return (
     <div>
-      <div className="w-full max-w-screen-xl fixed z-50 bg-white text-black py-3">
+      <div className="w-full max-w-screen-xl fixed z-50 bg-white shadow-md text-black py-3">
         <Container>
           <div className="flex justify-between items-center">
             {/* logo */}

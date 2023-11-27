@@ -14,6 +14,8 @@ import ReviewQueue from "../pages/moderator/ReviewQueue";
 import AddProduct from "../pages/user/AddProduct";
 import MyProducts from "../pages/user/MyProducts";
 import MyProfile from "../pages/user/MyProfile";
+import AdminRoutes from "./AdminRoutes";
+import ModeratorRoutes from "./ModeratorRoutes";
 import PrivateRoutes from "./PrivateRoutes";
 
 const router = createBrowserRouter([
@@ -55,25 +57,45 @@ const router = createBrowserRouter([
       // admin routes
       {
         path: "statistics",
-        element: <Statistics />,
+        element: (
+          <AdminRoutes>
+            <Statistics />
+          </AdminRoutes>
+        ),
       },
       {
         path: "manage-users",
-        element: <ManageUsers />,
+        element: (
+          <AdminRoutes>
+            <ManageUsers />
+          </AdminRoutes>
+        ),
       },
       {
         path: "manage-coupons",
-        element: <ManageCoupons />,
+        element: (
+          <AdminRoutes>
+            <ManageCoupons />
+          </AdminRoutes>
+        ),
       },
 
       // moderator routes
       {
         path: "review-queue",
-        element: <ReviewQueue />,
+        element: (
+          <ModeratorRoutes>
+            <ReviewQueue />
+          </ModeratorRoutes>
+        ),
       },
       {
         path: "reported-contents",
-        element: <ReportedContents />,
+        element: (
+          <ModeratorRoutes>
+            <ReportedContents />
+          </ModeratorRoutes>
+        ),
       },
 
       // user routes

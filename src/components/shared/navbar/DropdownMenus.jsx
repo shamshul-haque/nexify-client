@@ -1,12 +1,16 @@
 import { RiMenu3Fill } from "react-icons/ri";
 import { Link, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
+import useAdmin from "../../../hooks/useAdmin";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+import useModerator from "../../../hooks/useModerator";
 
 const DropdownMenus = () => {
   const { user, logoutUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
+  const { isAdmin } = useAdmin();
+  const { isModerator } = useModerator();
 
   const handleLogout = async () => {
     logoutUser();
@@ -39,7 +43,15 @@ const DropdownMenus = () => {
               <h1 className="font-bold text-center my-2">
                 {user?.displayName}
               </h1>
-              <Link to="/dashboard/user-profile">
+              <Link
+                to={`/dashboard/${
+                  isAdmin
+                    ? "statistics"
+                    : isModerator
+                    ? "review-queue"
+                    : "user-profile"
+                }`}
+              >
                 <button className="bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 p-2 rounded uppercase cursor-pointer w-full text-center">
                   Dashboard
                 </button>

@@ -1,11 +1,15 @@
 import { Link, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
+import useAdmin from "../../../hooks/useAdmin";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+import useModerator from "../../../hooks/useModerator";
 
 const LgMenus = () => {
   const { user, logoutUser } = useAuth();
   const axiosPrivate = useAxiosPrivate();
+  const { isAdmin } = useAdmin();
+  const { isModerator } = useModerator();
 
   const handleLogout = async () => {
     logoutUser();
@@ -47,7 +51,15 @@ const LgMenus = () => {
             className="w-52 mr-10 -mt-2 p-5 shadow menu-sm dropdown-content bg-white rounded-md flex flex-col uppercase"
           >
             <h1 className="font-bold text-center mb-2">{user?.displayName}</h1>
-            <Link to="/dashboard/user-profile">
+            <Link
+              to={`/dashboard/${
+                isAdmin
+                  ? "statistics"
+                  : isModerator
+                  ? "review-queue"
+                  : "user-profile"
+              }`}
+            >
               <button className="bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 p-2 rounded uppercase cursor-pointer w-full text-center mt-3">
                 Dashboard
               </button>

@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -47,7 +48,10 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center py-14">
+    <div className="flex items-center justify-center pt-28 pb-12">
+      <Helmet>
+        <title>Register | Nexify</title>
+      </Helmet>
       <div className="w-full max-w-sm bg-black bg-opacity-20 rounded p-5">
         <h1 className="text-3xl text-center font-bold">Register</h1>
         <form onSubmit={handleSubmit(onSubmit)}>

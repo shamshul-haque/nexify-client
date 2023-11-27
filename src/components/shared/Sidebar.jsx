@@ -4,10 +4,12 @@ import { IoStatsChart } from "react-icons/io5";
 import { MdReport, MdReviews } from "react-icons/md";
 import { RiCouponFill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
+import useAdmin from "../../hooks/useAdmin";
+import useModerator from "../../hooks/useModerator";
 
 const Sidebar = () => {
-  const isAdmin = true;
-  const isModerator = false;
+  const { isAdmin } = useAdmin();
+  const { isModerator } = useModerator();
   return (
     <>
       <div className="w-64 h-full bg-yellow-500 p-7 space-y-4 hidden md:block">
