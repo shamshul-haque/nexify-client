@@ -43,7 +43,7 @@ const AddProduct = () => {
         timestamp: new Date(),
         status: "pending",
       };
-      const res = await axiosPrivate.post("/menus", productInfo);
+      const res = await axiosPrivate.post("/user/products", productInfo);
       if (res?.data?.insertedId) {
         reset();
         toast?.success(`${data?.product_name} is added!`, {

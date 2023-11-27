@@ -1,5 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
+import { FaRegEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -80,18 +83,17 @@ const MyProducts = () => {
                 <td>{product?.product_name}</td>
                 <td>{product?.vote_count}</td>
                 <td>{product?.status}</td>
-                <td className="text-center flex flex-col gap-2">
-                  <button
-                    // onClick={() => handleUpdate(user, "admin")}
-                    className="bg-yellow-500 hover:text-white transition-all duration-1000 p-2 rounded"
-                  >
-                    Update
-                  </button>
+                <td className="flex flex-col md:flex-row justify-center items-center gap-2 md:mt-3 lg:mt-0">
+                  <Link to={`/dashboard/update-product/${product?._id}`}>
+                    <button className="bg-yellow-500 hover:text-white transition-all duration-1000 p-2 rounded">
+                      <FaRegEdit className="text-xl" />
+                    </button>
+                  </Link>
                   <button
                     onClick={() => handleDelete(product)}
-                    className="bg-yellow-500 hover:text-white transition-all duration-1000 p-2 rounded"
+                    className="bg-yellow-500 hover:text-red-500 transition-all duration-1000 p-2 rounded"
                   >
-                    Delete
+                    <MdDelete className="text-xl" />
                   </button>
                 </td>
               </tr>

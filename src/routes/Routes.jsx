@@ -14,6 +14,7 @@ import ReviewQueue from "../pages/moderator/ReviewQueue";
 import AddProduct from "../pages/user/AddProduct";
 import MyProducts from "../pages/user/MyProducts";
 import MyProfile from "../pages/user/MyProfile";
+import UpdateProduct from "../pages/user/UpdateProduct";
 import Payments from "../pages/user/payments/Payments";
 import AdminRoutes from "./AdminRoutes";
 import ModeratorRoutes from "./ModeratorRoutes";
@@ -111,6 +112,10 @@ const router = createBrowserRouter([
       {
         path: "add-product",
         element: <AddProduct />,
+      },
+      {
+        path: "update-product/:id",
+        element: <UpdateProduct />,
       },
       {
         path: "my-products",
