@@ -17,7 +17,7 @@ const useAxiosPrivate = () => {
       return res;
     },
     (error) => {
-      if (error?.response?.status === 401 || error.response.status === 403) {
+      if (error?.response?.status === 401) {
         logoutUser();
         toast?.warning("Access expired. Login please!", {
           position: "top-right",
