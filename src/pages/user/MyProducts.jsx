@@ -55,7 +55,7 @@ const MyProducts = () => {
     <div className="bg-emerald-500 shadow-xl min-h-screen p-5 md:p-10 m-5 md:m-10">
       <div className="uppercase">
         <h2 className="font-bold text-center text-3xl">
-          Total Users: {products?.length}
+          Total Products: {products?.length}
         </h2>
       </div>
       <div className="overflow-x-auto mt-6">
@@ -66,7 +66,7 @@ const MyProducts = () => {
               <th>Name</th>
               <th>Votes</th>
               <th>Status</th>
-              <th className="text-center"></th>
+              <th className="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
