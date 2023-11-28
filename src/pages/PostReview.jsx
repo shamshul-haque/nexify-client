@@ -1,28 +1,37 @@
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const PostReview = () => {
+  const axiosPrivate = useAxiosPrivate();
   const { user } = useAuth();
+  const { id } = useParams();
+
   const {
     register,
     handleSubmit,
-    // reset,
+    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
-    // const reviewInfo = {
-    //   owner_name: data?.owner_name,
-    // };
-    // const res = await axiosPrivate.post("/user/products", productInfo);
-    // if (res?.data?.insertedId) {
-    //   reset();
-    //   toast?.success(`${data?.product_name} is added!`, {
-    //     position: "top-right",
-    //     theme: "colored",
-    //   });
-    // }
+    const reviewInfo = {
+      name: data?.name,
+      image: data?.image,
+      ratting: parseInt(data?.ratting),
+      description: data?.description,
+      productId: id,
+    };
+    const res = await axiosPrivate.post("/user/reviews", reviewInfo);
+    if (res?.data?.insertedId) {
+      reset();
+      toast?.success(`${data?.product_name} is added!`, {
+        position: "top-right",
+        theme: "colored",
+      });
+    }
   };
 
   return (
@@ -62,7 +71,7 @@ const PostReview = () => {
           </div>
         </div>
         <div className="form-control flex-1">
-          <label>Price</label>
+          <label>Ratting</label>
           <input
             type="number"
             {...register("ratting", {
@@ -71,7 +80,7 @@ const PostReview = () => {
             placeholder="Give us ratting (Out of 5)"
             className="outline-0 border p-2 rounded text-sm"
           />
-          {errors?.price?.type === "required" && (
+          {errors?.ratting?.type === "required" && (
             <span className="text-red-500">Ratting is required</span>
           )}
         </div>
