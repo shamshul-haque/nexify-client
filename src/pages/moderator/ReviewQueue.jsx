@@ -47,6 +47,7 @@ const ReviewQueue = () => {
       `/moderator/products/${product?._id}`,
       {
         status,
+        sort: 0,
       }
     );
     if (res?.data?.modifiedCount > 0) {
@@ -78,6 +79,7 @@ const ReviewQueue = () => {
               <th>Featured</th>
               <th>Accepted</th>
               <th>Rejected</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -104,6 +106,7 @@ const ReviewQueue = () => {
                     {product?.featured ? "Featured" : "Make Featured"}
                   </button>
                 </td>
+
                 <td>
                   <button
                     onClick={() => handleStatus(product, "accepted")}
@@ -113,7 +116,7 @@ const ReviewQueue = () => {
                         : "bg-yellow-500 hover:text-white transition-all duration-1000 p-2 rounded w-full"
                     }`}
                   >
-                    {product?.status === "accepted" ? "Accepted" : "Accept"}
+                    Accept
                   </button>
                 </td>
                 <td>
@@ -125,8 +128,15 @@ const ReviewQueue = () => {
                         : "bg-yellow-500 hover:text-white transition-all duration-1000 p-2 rounded w-full"
                     }`}
                   >
-                    {product?.status === "rejected" ? "Rejected" : "Reject"}
+                    Reject
                   </button>
+                </td>
+                <td>
+                  {product?.status === "pending"
+                    ? "Pending"
+                    : product?.status === "accepted"
+                    ? "Accepted"
+                    : "Rejected"}
                 </td>
               </tr>
             ))}

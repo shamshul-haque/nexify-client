@@ -42,6 +42,7 @@ const AddProduct = () => {
         vote_count: 0,
         timestamp: new Date(),
         status: "pending",
+        sort: 1,
       };
       const res = await axiosPrivate.post("/user/products", productInfo);
       if (res?.data?.insertedId) {
