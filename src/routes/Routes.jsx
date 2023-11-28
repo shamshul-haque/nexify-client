@@ -4,6 +4,7 @@ import Main from "../layouts/Main";
 import Error from "../pages/Error";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import ProductDetails from "../pages/ProductDetails";
 import Products from "../pages/Products";
 import Register from "../pages/Register";
 import ManageCoupons from "../pages/admin/ManageCoupons";
@@ -35,6 +36,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoutes>
             <Products />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "product-details/:id",
+        element: (
+          <PrivateRoutes>
+            <ProductDetails />
           </PrivateRoutes>
         ),
       },
