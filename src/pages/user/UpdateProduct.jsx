@@ -54,7 +54,10 @@ const UpdateProduct = () => {
         tags: selected,
         timestamp: new Date(),
       };
-      const res = await axiosPrivate.patch(`/user/products/${id}`, productInfo);
+      const res = await axiosPrivate.patch(
+        `/owner/products/${id}`,
+        productInfo
+      );
       console.log(res.data);
       if (res?.data?.modifiedCount > 0) {
         reset();

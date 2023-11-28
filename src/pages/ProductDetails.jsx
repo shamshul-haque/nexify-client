@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
 import { BiSolidUpvote } from "react-icons/bi";
 import { useParams } from "react-router-dom";
@@ -12,22 +12,24 @@ import Reviews from "./Reviews";
 
 const ProductDetails = () => {
   const axiosPrivate = useAxiosPrivate();
-  const [item, setItem] = useState({});
-  const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const { user } = useAuth();
 
-  useEffect(() => {
-    axiosPrivate.get(`/user/products/${id}`).then((res) => {
-      setItem(res.data);
-      setLoading(false);
-    });
-  }, [axiosPrivate, id]);
-
-  if (loading) {
+  const {
+    data: product,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const res = await axiosPrivate.get(`/user/products/${id}`);
+      return res?.data;
+    },
+  });
+  if (isLoading) {
     return (
       <div className="w-full flex justify-center items-center">
-        <span className="loading loading-bars w-40 py-40"></span>
+        <span className="loading loading-spinner w-40 py-52 bg-yellow-500"></span>
       </div>
     );
   }
@@ -35,26 +37,32 @@ const ProductDetails = () => {
   const handleReport = async () => {
     const { value: report } = await Swal.fire({
       input: "textarea",
-      inputLabel: "Message",
+      inputLabel: "Report",
       inputPlaceholder: "Type your message here...",
       inputAttributes: {
         "aria-label": "Type your message here",
       },
       showCancelButton: true,
     });
-    if (report) {
-      Swal.fire(report);
-    }
     const productInfo = {
-      productId: id,
       report,
     };
-    const res = await axiosPrivate.post("/report", productInfo);
-    if (res?.data?.insertedId) {
+    const res = await axiosPrivate.patch(`/user/products/${id}`, productInfo);
+    if (res?.data?.modifiedCount > 0) {
       toast?.success(`Your report is collected`, {
         position: "top-right",
         theme: "colored",
       });
+    }
+  };
+
+  const handleVote = async () => {
+    const productInfo = {
+      vote_count: product?.vote_count + 1,
+    };
+    const res = await axiosPrivate.patch(`/user/products/${id}`, productInfo);
+    if (res?.data?.modifiedCount > 0) {
+      refetch();
     }
   };
 
@@ -65,27 +73,27 @@ const ProductDetails = () => {
       </Helmet>
       <div className="pt-32">
         <h2 className="font-bold text-center text-4xl pb-5">
-          Details of {item?.product_name}
+          Details of {product?.product_name}
         </h2>
         <div className="flex flex-col md:flex-row items-center justify-center md:gap-10 bg-white shadow-xl rounded-lg">
           <div className="flex-1">
             <img
-              src={item?.image}
-              alt={item?.product_name}
+              src={product?.image}
+              alt={product?.product_name}
               className="w-full rounded-l-lg"
             />
           </div>
           <div className="flex-1 p-5">
             <h2 className="text-xl font-bold pb-3">
-              Name: {item?.product_name}
+              Name: {product?.product_name}
             </h2>
             <p className="pb-3">
               <span className="font-bold">Description: </span>
-              {item?.details}
+              {product?.details}
             </p>
             <div className="flex flex-row gap-2">
               <span className="font-bold">Tags:</span>
-              {item?.tags.map((tag, idx) => (
+              {product?.tags.map((tag, idx) => (
                 <p
                   key={idx}
                   className="bg-yellow-500 rounded px-2 cursor-not-allowed"
@@ -98,7 +106,7 @@ const ProductDetails = () => {
               <button
                 onClick={handleReport}
                 className={`${
-                  item?.owner == user?.email
+                  product?.owner == user?.email
                     ? "bg-yellow-100 text-black  px-3 py-2 rounded uppercase text-center cursor-not-allowed mr-5"
                     : "bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 px-3 py-2 rounded uppercase text-center mr-5"
                 }`}
@@ -106,14 +114,15 @@ const ProductDetails = () => {
                 Report
               </button>
               <button
+                onClick={handleVote}
                 className={`${
-                  item?.owner == user?.email
+                  product?.owner == user?.email
                     ? "bg-yellow-100 text-black  px-3 py-2 rounded uppercase text-center cursor-not-allowed"
                     : "bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 px-3 py-2 rounded uppercase text-center"
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <span>{item?.vote_count}</span>
+                  <span>{product?.vote_count}</span>
                   <BiSolidUpvote />
                 </div>
               </button>

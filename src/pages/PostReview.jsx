@@ -12,7 +12,7 @@ const PostReview = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-    // const productInfo = {
+    // const reviewInfo = {
     //   owner_name: data?.owner_name,
     // };
     // const res = await axiosPrivate.post("/user/products", productInfo);
@@ -23,7 +23,6 @@ const PostReview = () => {
     //     theme: "colored",
     //   });
     // }
-    // navigate("/dashboard/my-products");
   };
 
   return (
@@ -50,29 +49,43 @@ const PostReview = () => {
             <label>Your Image</label>
             <input
               type="text"
-              {...register("owner_image", {
+              {...register("image", {
                 required: true,
               })}
               defaultValue={user?.photoURL}
               readOnly
               className="outline-0 border p-2 rounded text-sm"
             />
-            {errors?.owner_image?.type === "required" && (
-              <span className="text-red-500">photoUrl is required</span>
+            {errors?.image?.type === "required" && (
+              <span className="text-red-500">Image is required</span>
             )}
           </div>
+        </div>
+        <div className="form-control flex-1">
+          <label>Price</label>
+          <input
+            type="number"
+            {...register("ratting", {
+              required: true,
+            })}
+            placeholder="Give us ratting (Out of 5)"
+            className="outline-0 border p-2 rounded text-sm"
+          />
+          {errors?.price?.type === "required" && (
+            <span className="text-red-500">Ratting is required</span>
+          )}
         </div>
         <div className="form-control flex-1">
           <label>Description</label>
           <textarea
             type="text"
-            {...register("details", { required: true })}
+            {...register("description", { required: true })}
             className="outline-0 border p-2 rounded text-sm"
             placeholder="Enter Description"
             cols="30"
             rows="10"
           />
-          {errors?.details?.type === "required" && (
+          {errors?.description?.type === "required" && (
             <span className="text-red-500">Description is required</span>
           )}
         </div>
