@@ -20,7 +20,7 @@ const ProductDetails = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["products"],
+    queryKey: ["product"],
     queryFn: async () => {
       const res = await axiosPrivate.get(`/user/products/${id}`);
       return res?.data;

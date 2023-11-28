@@ -27,7 +27,7 @@ const PostReview = () => {
     const res = await axiosPrivate.post("/user/reviews", reviewInfo);
     if (res?.data?.insertedId) {
       reset();
-      toast?.success(`${data?.product_name} is added!`, {
+      toast?.success(`Thanks for your valuable review!`, {
         position: "top-right",
         theme: "colored",
       });
