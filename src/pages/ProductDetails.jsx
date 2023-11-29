@@ -105,6 +105,7 @@ const ProductDetails = () => {
             <div className="text-center mt-10">
               <button
                 onClick={handleReport}
+                disabled={product?.owner == user?.email}
                 className={`${
                   product?.owner == user?.email
                     ? "bg-yellow-100 text-black  px-3 py-2 rounded uppercase text-center cursor-not-allowed mr-5"
@@ -115,6 +116,7 @@ const ProductDetails = () => {
               </button>
               <button
                 onClick={handleVote}
+                disabled={product?.owner == user?.email}
                 className={`${
                   product?.owner == user?.email
                     ? "bg-yellow-100 text-black  px-3 py-2 rounded uppercase text-center cursor-not-allowed"
