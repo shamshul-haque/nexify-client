@@ -49,7 +49,7 @@ const Reviews = () => {
                   readOnly
                 />
                 <img src={review?.image} alt="{review?.name}" />
-                <div className="text-center  space-y-1">
+                <div className="text-center space-y-1 pb-6">
                   <h1 className="uppercase font-bold text-yellow-500">
                     {review?.name}
                   </h1>

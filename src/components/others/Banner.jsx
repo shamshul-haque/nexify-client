@@ -1,5 +1,6 @@
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Link } from "react-router-dom";
 import banner1 from "../../assets/banner1.jpg";
 import banner2 from "../../assets/banner2.jpg";
 import banner3 from "../../assets/banner3.webp";
@@ -23,9 +24,11 @@ const Banner = () => {
               <h1 className="text-4xl md:text-8xl font-bold uppercase text-center">
                 Curvy Bevel <br /> Dual Audio
               </h1>
-              <button className="bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 p-2 md:px-4 md:py-3 rounded uppercase cursor-pointer text-center mt-5 md:mt-10">
-                Shop Now
-              </button>
+              <Link to="/products">
+                <button className="bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 p-2 md:px-4 md:py-3 rounded uppercase cursor-pointer text-center mt-5 md:mt-10">
+                  Show All Products
+                </button>
+              </Link>
             </Container>
           </div>
         </div>
@@ -36,9 +39,11 @@ const Banner = () => {
               <h1 className="text-4xl md:text-8xl font-bold uppercase text-center">
                 High Definition <br /> Camera
               </h1>
-              <button className="bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 p-2 md:px-4 md:py-3 rounded uppercase cursor-pointer text-center mt-5 md:mt-10">
-                Shop Now
-              </button>
+              <Link to="/products">
+                <button className="bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 p-2 md:px-4 md:py-3 rounded uppercase cursor-pointer text-center mt-5 md:mt-10">
+                  Show All Products
+                </button>
+              </Link>
             </Container>
           </div>
         </div>
@@ -49,9 +54,11 @@ const Banner = () => {
               <h1 className="text-4xl md:text-8xl font-bold uppercase text-center">
                 Full Screen <br /> Display
               </h1>
-              <button className="bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 p-2 md:px-4 md:py-3 rounded uppercase cursor-pointer text-center mt-5 md:mt-10">
-                Shop Now
-              </button>
+              <Link to="/products">
+                <button className="bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 p-2 md:px-4 md:py-3 rounded uppercase cursor-pointer text-center mt-5 md:mt-10">
+                  Show All Products
+                </button>
+              </Link>
             </Container>
           </div>
         </div>

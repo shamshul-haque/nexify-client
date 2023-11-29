@@ -3,19 +3,20 @@ import { BiSolidUpvote } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Container from "../shared/Container";
 
 const TrendingProducts = () => {
   const axiosPublic = useAxiosPublic();
-  // const axiosPrivate = useAxiosPublic();
+  const axiosPrivate = useAxiosPrivate();
   const { user } = useAuth();
   const navigate = useNavigate();
 
   const {
     data: trending,
     isLoading,
-    // refetch,
+    refetch,
   } = useQuery({
     queryKey: ["trending"],
     queryFn: async () => {
@@ -31,15 +32,18 @@ const TrendingProducts = () => {
     );
   }
 
-  const handleVote = async () => {
+  const handleVote = async (product) => {
     if (user) {
-      // const productInfo = {
-      //   vote_count: product?.vote_count + 1,
-      // };
-      // const res = await axiosPrivate.patch(`/user/products/${id}`, productInfo);
-      // if (res?.data?.modifiedCount > 0) {
-      //   refetch();
-      // }
+      const productInfo = {
+        vote_count: product?.vote_count + 1,
+      };
+      const res = await axiosPrivate.patch(
+        `/user/products/${product?._id}`,
+        productInfo
+      );
+      if (res?.data?.modifiedCount > 0) {
+        refetch();
+      }
     } else {
       Swal.fire({
         title: "You are not Logged In",
@@ -90,22 +94,19 @@ const TrendingProducts = () => {
                   </p>
                 ))}
               </div>
-              <Link to={`/product-details/${product?._id}`}>
-                <button
-                  // onClick={() => handleVote(product?._id)}
-                  onClick={() => handleVote()}
-                  className={`${
-                    product?.owner == user?.email
-                      ? "bg-yellow-100 text-black  px-3 py-2 rounded uppercase text-center cursor-not-allowed absolute top-2 left-2"
-                      : "bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 px-3 py-2 rounded uppercase text-center absolute top-2 left-2"
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <span>{product?.vote_count}</span>
-                    <BiSolidUpvote />
-                  </div>
-                </button>
-              </Link>
+              <button
+                onClick={() => handleVote(product)}
+                className={`${
+                  product?.owner == user?.email
+                    ? "bg-yellow-100 text-black  px-3 py-2 rounded uppercase text-center cursor-not-allowed absolute top-2 left-2"
+                    : "bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 px-3 py-2 rounded uppercase text-center absolute top-2 left-2"
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <span>{product?.vote_count}</span>
+                  <BiSolidUpvote />
+                </div>
+              </button>
             </div>
           ))}
         </div>

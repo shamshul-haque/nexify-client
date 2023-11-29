@@ -25,7 +25,7 @@ const Footer = () => {
   return (
     <div className="bg-emerald-200 bg-opacity-20">
       <Container>
-        <div className="pt-10 flex flex-col md:flex-row justify-between gap-10 md:gap-20">
+        <div className="py-10 flex flex-col md:flex-row justify-between gap-10 md:gap-20">
           <div className="flex-1">
             <div className="flex items-center gap-2">
               <img src={logo} alt="logo" className="w-40" />
@@ -110,10 +110,10 @@ const Footer = () => {
             </form>
           </div>
         </div>
-        <p className="text-sm text-center py-5">
-          Copyright Nexify! All Rights Reserved
-        </p>
       </Container>
+      <p className="text-sm text-center py-5 bg-yellow-200 bg-opacity-20">
+        Copyright Nexify! All Rights Reserved
+      </p>
     </div>
   );
 };
