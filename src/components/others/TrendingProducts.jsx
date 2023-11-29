@@ -6,20 +6,20 @@ import useAuth from "../../hooks/useAuth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Container from "../shared/Container";
 
-const FeaturedProduct = () => {
+const TrendingProducts = () => {
   const axiosPublic = useAxiosPublic();
   // const axiosPrivate = useAxiosPublic();
   const { user } = useAuth();
   const navigate = useNavigate();
 
   const {
-    data: featured,
+    data: trending,
     isLoading,
     // refetch,
   } = useQuery({
-    queryKey: ["featured"],
+    queryKey: ["trending"],
     queryFn: async () => {
-      const res = await axiosPublic.get("/products/featured");
+      const res = await axiosPublic.get("/products/voted");
       return res?.data;
     },
   });
@@ -58,13 +58,13 @@ const FeaturedProduct = () => {
   };
 
   return (
-    <div className="pt-10 pb-14">
+    <div className="pb-14">
       <Container>
         <h1 className="text-3xl font-bold uppercase text-center">
-          Featured Rooms
+          Trending Rooms
         </h1>
-        <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {featured?.map((product) => (
+        <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-5">
+          {trending?.map((product) => (
             <div
               key={product?._id}
               className="mx-3 border p-5 rounded relative"
@@ -121,4 +121,4 @@ const FeaturedProduct = () => {
   );
 };
 
-export default FeaturedProduct;
+export default TrendingProducts;
