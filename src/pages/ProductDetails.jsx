@@ -4,11 +4,11 @@ import { BiSolidUpvote } from "react-icons/bi";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import PostReview from "../components/others/PostReview";
+import Reviews from "../components/others/Reviews";
 import Container from "../components/shared/Container";
 import useAuth from "../hooks/useAuth";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import PostReview from "./PostReview";
-import Reviews from "./Reviews";
 
 const ProductDetails = () => {
   const axiosPrivate = useAxiosPrivate();

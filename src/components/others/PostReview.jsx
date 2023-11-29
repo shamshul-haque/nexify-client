@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import useAuth from "../hooks/useAuth";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAuth from "../../hooks/useAuth";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const PostReview = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -35,9 +35,12 @@ const PostReview = () => {
   };
 
   return (
-    <div className="bg-white shadow-xl p-5 md:p-10">
+    <div className="pb-14">
       <h2 className="font-bold text-center text-4xl pb-5">Post Your Review</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 mt-6">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-5 bg-emerald-500 rounded shadow-xl p-5 md:p-10"
+      >
         <div className="flex flex-col md:flex-row items-center justify-between gap-5">
           <div className="form-control w-full md:flex-1">
             <label>Your Name</label>
