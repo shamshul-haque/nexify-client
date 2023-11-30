@@ -1,5 +1,5 @@
 # Nexify
-[nexify](https://nexify-cadfe.web.app/)
+Click here to see the project: [nexify](https://nexify-cadfe.web.app/)
 
 # Project Features
 
