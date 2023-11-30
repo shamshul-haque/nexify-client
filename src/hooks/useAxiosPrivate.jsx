@@ -4,8 +4,8 @@ import { toast } from "react-toastify";
 import useAuth from "./useAuth";
 
 const axiosPrivate = axios.create({
-  // baseURL: "https://nexify-server.vercel.app/api/v1",
-  baseURL: "http://localhost:5000/api/v1",
+  baseURL: "https://nexify-server.vercel.app/api/v1",
+  // baseURL: "http://localhost:5000/api/v1",
   withCredentials: true,
 });
 
