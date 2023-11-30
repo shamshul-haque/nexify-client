@@ -16,12 +16,28 @@ const Products = () => {
   const [items, setItems] = useState([]);
   const navigate = useNavigate();
 
-  const { isLoading, refetch } = useQuery({
+  // const [page, setPage] = useState(1);
+  // const limit = 2;
+  // const totalPage = Math.ceil(items?.total / limit);
+
+  const {
+    data: allProducts,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["allProducts"],
+    // queryKey: ["allProducts", page],
     queryFn: async () => {
       const res = await axiosPublic.get("/products");
       setItems(res?.data);
       return res?.data;
+      // queryKey: ["allProducts", page],
+      // queryFn: async () => {
+      //   const res = await axiosPublic.get(
+      //     `/products?page=${page}&limit=${limit}`
+      //   );
+      //   setItems(res?.data?.result);
+      //   return res?.data?.result;
     },
   });
   if (isLoading) {
@@ -70,6 +86,17 @@ const Products = () => {
     }
   };
 
+  // const handlePervious = () => {
+  //   if (page > 1) {
+  //     setPage(page - 1);
+  //   }
+  // };
+  // const handleNext = () => {
+  //   if (page < totalPage) {
+  //     setPage(page + 1);
+  //   }
+  // };
+
   return (
     <div className="pt-32 pb-16">
       <Container>
@@ -113,6 +140,7 @@ const Products = () => {
               </div>
               <button
                 onClick={() => handleVote(product)}
+                disabled={product?.owner == user?.email}
                 className={`${
                   product?.owner == user?.email
                     ? "bg-yellow-100 text-black  px-3 py-2 rounded uppercase text-center cursor-not-allowed absolute top-2 left-2"
@@ -127,6 +155,32 @@ const Products = () => {
             </div>
           ))}
         </div>
+        {/* <div className="flex justify-center mt-5">
+          <div className="join border-2 border-yellow-500">
+            <button onClick={handlePervious} className="join-item btn-sm">
+              «
+            </button>
+            {[...Array(totalPage || 0).fill(0)]?.map((item, idx) => {
+              const pageNo = idx + 1;
+              return (
+                <button
+                  key={pageNo}
+                  onClick={() => setPage(pageNo)}
+                  className={`${
+                    pageNo === page
+                      ? "join-item btn-sm bg-yellow-500"
+                      : "join-item btn-sm"
+                  }`}
+                >
+                  {pageNo}
+                </button>
+              );
+            })}
+            <button onClick={handleNext} className="join-item btn-sm">
+              »
+            </button>
+          </div>
+        </div> */}
       </Container>
     </div>
   );

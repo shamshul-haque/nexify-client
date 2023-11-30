@@ -96,6 +96,7 @@ const FeaturedProduct = () => {
               </div>
               <button
                 onClick={() => handleVote(product)}
+                disabled={product?.owner == user?.email}
                 className={`${
                   product?.owner == user?.email
                     ? "bg-yellow-100 text-black  px-3 py-2 rounded uppercase text-center cursor-not-allowed absolute top-2 left-2"
