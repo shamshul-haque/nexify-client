@@ -36,14 +36,14 @@ const PostReview = () => {
 
   return (
     <div className="pb-14">
-      <h2 className="font-bold text-center text-4xl pb-5">Post Your Review</h2>
+      <h2 className="font-bold text-center text-4xl pb-5">Rate Our Product</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-5 bg-emerald-500 rounded shadow-xl p-5 md:p-10"
       >
         <div className="flex flex-col md:flex-row items-center justify-between gap-5">
           <div className="form-control w-full md:flex-1">
-            <label>Your Name</label>
+            <label>Name</label>
             <input
               type="text"
               {...register("name", {
@@ -58,7 +58,7 @@ const PostReview = () => {
             )}
           </div>
           <div className="form-control w-full flex-1">
-            <label>Your Image</label>
+            <label>Image</label>
             <input
               type="text"
               {...register("image", {
@@ -73,22 +73,28 @@ const PostReview = () => {
             )}
           </div>
         </div>
-        <div className="form-control flex-1">
+        <div className="form-control">
           <label>Ratting</label>
-          <input
-            type="number"
+          <select
             {...register("ratting", {
               required: true,
             })}
-            placeholder="Give us ratting (Out of 5)"
-            className="outline-0 border p-2 rounded text-sm"
-          />
+            className="outline-0 border p-2 rounded"
+          >
+            <option value="type">Rate Us</option>
+            <option value={1}>1</option>
+            <option value={2}>2</option>
+            <option value={3}>3</option>
+            <option value={4}>4</option>
+            <option value={5}>5</option>
+          </select>
           {errors?.ratting?.type === "required" && (
             <span className="text-red-500">Ratting is required</span>
           )}
         </div>
+
         <div className="form-control flex-1">
-          <label>Description</label>
+          <label>Comment</label>
           <textarea
             type="text"
             {...register("description", { required: true })}

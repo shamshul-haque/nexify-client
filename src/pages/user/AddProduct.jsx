@@ -40,6 +40,7 @@ const AddProduct = () => {
         image: imgRes?.data?.data?.display_url,
         tags: selected,
         vote_count: 0,
+        voter: null,
         timestamp: new Date(),
         status: "pending",
         sort: 1,

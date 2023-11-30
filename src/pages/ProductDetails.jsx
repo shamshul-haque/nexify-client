@@ -59,6 +59,7 @@ const ProductDetails = () => {
   const handleVote = async () => {
     const productInfo = {
       vote_count: product?.vote_count + 1,
+      voter: user?.email,
     };
     const res = await axiosPrivate.patch(`/user/products/${id}`, productInfo);
     if (res?.data?.modifiedCount > 0) {
@@ -116,9 +117,11 @@ const ProductDetails = () => {
               </button>
               <button
                 onClick={handleVote}
-                disabled={product?.owner == user?.email}
+                disabled={
+                  product?.owner == user?.email || product?.voter == user?.email
+                }
                 className={`${
-                  product?.owner == user?.email
+                  product?.owner == user?.email || product?.voter == user?.email
                     ? "bg-yellow-100 text-black  px-3 py-2 rounded uppercase text-center cursor-not-allowed"
                     : "bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 px-3 py-2 rounded uppercase text-center"
                 }`}

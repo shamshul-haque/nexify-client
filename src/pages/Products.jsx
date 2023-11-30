@@ -4,6 +4,7 @@ import { BiSolidUpvote } from "react-icons/bi";
 import { FaSearch } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import RisingProducts from "../components/others/RisingProducts";
 import Container from "../components/shared/Container";
 import useAuth from "../hooks/useAuth";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
@@ -15,29 +16,24 @@ const Products = () => {
   const { user } = useAuth();
   const [items, setItems] = useState([]);
   const navigate = useNavigate();
-
-  // const [page, setPage] = useState(1);
-  // const limit = 2;
-  // const totalPage = Math.ceil(items?.total / limit);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const limit = 20;
 
   const {
-    data: allProducts,
+    // data: allProducts,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["allProducts"],
-    // queryKey: ["allProducts", page],
+    queryKey: ["allProducts", page.toString(), search],
     queryFn: async () => {
-      const res = await axiosPublic.get("/products");
-      setItems(res?.data);
-      return res?.data;
-      // queryKey: ["allProducts", page],
-      // queryFn: async () => {
-      //   const res = await axiosPublic.get(
-      //     `/products?page=${page}&limit=${limit}`
-      //   );
-      //   setItems(res?.data?.result);
-      //   return res?.data?.result;
+      const res = await axiosPublic.get(
+        `/products?page=${page}&limit=${limit}&search=${search}`
+      );
+      setItems(res?.data?.result);
+      setTotalPage(res?.data?.totalPages);
+      // return res?.data?.result;
     },
   });
   if (isLoading) {
@@ -50,17 +46,14 @@ const Products = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    const form = e.target;
-    const search = form.search.value;
-    form.reset();
-    const res = await axiosPublic.get(`/products?search=${search}`);
-    setItems(res?.data);
+    setSearch(e.target.search.value);
   };
 
   const handleVote = async (product) => {
     if (user) {
       const productInfo = {
         vote_count: product?.vote_count + 1,
+        voter: user?.email,
       };
       const res = await axiosPrivate.patch(
         `/user/products/${product?._id}`,
@@ -86,29 +79,25 @@ const Products = () => {
     }
   };
 
-  // const handlePervious = () => {
-  //   if (page > 1) {
-  //     setPage(page - 1);
-  //   }
-  // };
-  // const handleNext = () => {
-  //   if (page < totalPage) {
-  //     setPage(page + 1);
-  //   }
-  // };
-
   return (
     <div className="pt-32 pb-16">
       <Container>
-        <form onSubmit={handleSearch} className="w-3/4 mx-auto relative">
+        <RisingProducts />
+        <h1 className="text-3xl font-bold uppercase text-center mt-16">
+          All Products
+        </h1>
+        <form
+          onSubmit={handleSearch}
+          className="w-3/4 mx-auto mt-5 border border-yellow-500 rounded-lg relative"
+        >
           <input
             type="text"
             name="search"
             placeholder="Search your desired product"
-            className="outline-0 border p-2 rounded text-sm w-full"
+            className="outline-0 border p-2 rounded-lg text-sm w-full"
           />
           <button type="submit" className="absolute top-3 right-4 ">
-            <FaSearch />
+            <FaSearch className="text-yellow-500" />
           </button>
         </form>
         <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -140,9 +129,11 @@ const Products = () => {
               </div>
               <button
                 onClick={() => handleVote(product)}
-                disabled={product?.owner == user?.email}
+                disabled={
+                  product?.owner == user?.email || product?.voter == user?.email
+                }
                 className={`${
-                  product?.owner == user?.email
+                  product?.owner == user?.email || product?.voter == user?.email
                     ? "bg-yellow-100 text-black  px-3 py-2 rounded uppercase text-center cursor-not-allowed absolute top-2 left-2"
                     : "bg-yellow-500 hover:bg-emerald-500 text-white transition-all duration-1000 px-3 py-2 rounded uppercase text-center absolute top-2 left-2"
                 }`}
@@ -155,9 +146,12 @@ const Products = () => {
             </div>
           ))}
         </div>
-        {/* <div className="flex justify-center mt-5">
+        <div className="flex justify-center mt-5">
           <div className="join border-2 border-yellow-500">
-            <button onClick={handlePervious} className="join-item btn-sm">
+            <button
+              onClick={() => setPage(page > 1 ? page - 1 : page)}
+              className="join-item btn-sm"
+            >
               «
             </button>
             {[...Array(totalPage || 0).fill(0)]?.map((item, idx) => {
@@ -176,11 +170,14 @@ const Products = () => {
                 </button>
               );
             })}
-            <button onClick={handleNext} className="join-item btn-sm">
+            <button
+              onClick={() => setPage(page < totalPage ? page + 1 : page)}
+              className="join-item btn-sm"
+            >
               »
             </button>
           </div>
-        </div> */}
+        </div>
       </Container>
     </div>
   );
