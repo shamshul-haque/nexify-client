@@ -1,7 +1,11 @@
+import Container from "../../components/shared/Container";
+
 const ManageCoupons = () => {
   return (
-    <div>
-      <p>Manage Coupons</p>
+    <div className="min-h-screen">
+      <Container>
+        <p>Manage Coupons</p>
+      </Container>
     </div>
   );
 };
