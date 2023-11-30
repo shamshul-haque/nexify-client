@@ -1,5 +1,5 @@
-# Booking Hotel
-[booking-hotel](https://nexify-cadfe.web.app/)
+# Nexify
+[nexify](https://nexify-cadfe.web.app/)
 
 # Project Features
 
